@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Live Expense Chart</h2>
+    <canvas id="expenseChart" width="400" height="200"></canvas>
+    <script>
+        fetch("/api/expenses/chart/")
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('expenseChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(data),
+                        datasets: [{
+                            label: 'Expense Distribution',
+                            data: Object.values(data),
+                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#84FF63', '#A263EB', '#EB5663', '#63EBB4', '#B4EB63', '#6384FF']
+                        }]
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
